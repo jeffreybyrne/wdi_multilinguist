@@ -2,7 +2,7 @@ import requests
 import json
 
 class Multilinguist:
-  """This class represents a world traveller who knows 
+  """This class represents a world traveller who knows
   what languages are spoken in each country around the world
   and can cobble together a sentence in most of them
   (but not very well)
@@ -15,7 +15,7 @@ class Multilinguist:
 
   def __init__(self):
     """Initializes the multilinguist's current_lang to 'en'
-    
+
     Returns
     -------
     Multilinguist
@@ -34,7 +34,7 @@ class Multilinguist:
 
     Returns
     -------
-    bool 
+    bool
         2 letter iso639_1 language code.
     """
     params = {'fullText': 'true'}
@@ -76,5 +76,34 @@ class Multilinguist:
     params = {'text': msg, 'to': self.current_lang, 'from': 'en'}
     response = requests.get(self.translatr_base_url, params=params)
     json_response = json.loads(response.text)
+    # print('---')
+    # print(json_response)
+    # print('---')
     return json_response['translationText']
 
+
+class MathGenius(Multilinguist):
+
+    def report_total(self, number_list):
+        curr_total = 0
+        for num in range(0,len(number_list)):
+            curr_total += number_list[num]
+        return "{} {}".format(self.say_in_local_language("The total is "), str(curr_total))
+
+# jeff = Multilinguist()
+# print(jeff.current_lang)
+# # print(jeff.say_in_local_language('hello'))
+# print(jeff.language_in('CN'))
+# print(jeff.language_in('RU'))
+# jeff.travel_to('FR')
+# print(jeff.current_lang)
+# print(jeff.say_in_local_language('hello'))
+# jeff2 = MathGenius()
+# jeff2.travel_to('FR')
+# print(jeff2.report_total([23,45,676,34,5778,4,23,5465]))
+me = MathGenius()
+print(me.report_total([23,45,676,34,5778,4,23,5465])) # The total is 12048
+me.travel_to("India")
+print(me.report_total([6,3,6,68,455,4,467,57,4,534])) # है को कुल 1604
+me.travel_to("Italy")
+print(me.report_total([324,245,6,343647,686545])) # È Il totale 1030767
